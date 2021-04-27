@@ -1,0 +1,27 @@
+{
+  "name": "calculate-string",
+  "version": "1.0.0",
+  "description": "Parses a string containing mathematical operators to a number",
+  "main": "index.js",
+  "files": [
+    "index.min.js",
+    "index.js"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "string",
+    "parse"
+  ],
+  "author": "Reece Stokes <hagen@paw.bot>",
+  "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MrGriefs/calculate-string.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MrGriefs/calculate-string/issues"
+  },
+  "homepage": "https://github.com/MrGriefs/calculate-string#readme"
+}
