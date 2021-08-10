@@ -61,17 +61,12 @@ function parse(string, format) {
 /**
  * Parses a string containing mathematical operators to a number.
  * @param {string} string - The string which contains mathematical operations.
- * @param {string|Array<string>=} [order=BIDMAS]
- * The order of operations to use. Defaults to BIDMAS.
- * 
- * Can be either "BIDMAS", "PEMDAS" or an array of the order of operations:
- *  - `bra`
- *  - `ind`
- *  - `div`
- *  - `mul`
- *  - `add`
- *  - `sub`
- * 
+ * @param {(string|Array<string>)} [order=BIDMAS]
+ * The order of operations to use. Defaults to BIDMAS.  
+ * Can be either "BIDMAS", "PEMDAS" or an array of the order of operations:  
+ * ```
+ * ['bra', 'ind', 'div', 'mul', 'add', 'sub']
+ * ```
  * @returns {string}
  */
 function calculate (string, order = orders.BIDMAS) {
