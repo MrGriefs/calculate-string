@@ -15,7 +15,7 @@
     "parse"
   ],
   "author": "Reece Stokes <hagen@paw.bot>",
-  "license": "GPL-3.0",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MrGriefs/calculate-string.git"

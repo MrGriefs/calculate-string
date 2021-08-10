@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2021, Reece Stokes. (GPL-3.0 Licensed)
+ * Copyright (c) 2021, Reece Stokes. (MIT Licensed)
  * https://github.com/MrGriefs/calculate-string
  */
 
