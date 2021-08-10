@@ -8,7 +8,8 @@
     "index.js"
   ],
   "scripts": {
-    "build": "webpack"
+    "build": "webpack",
+    "test": "node tests.js"
   },
   "keywords": [
     "string",
@@ -25,7 +26,7 @@
   },
   "homepage": "https://github.com/MrGriefs/calculate-string#readme",
   "dependencies": {
-    "jsbi": "^3.1.6"
+    "big.js": "^6.1.1"
   },
   "devDependencies": {
     "webpack-cli": "^4.7.2"
