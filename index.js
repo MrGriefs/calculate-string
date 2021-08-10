@@ -45,7 +45,8 @@ function operate(type, a, b, format) {
 
 function parse(string, format) {
     if (typeof string === "number") string = String(string);
-    string = string.replace(/[ ,$]+/g, "");
+    string = string.replace(/[ ,$]+/g, "")
+                   .replace(/\d\.?\d*e(\+?|-)\d+/gi, str => big(str).toString());
     var methodResults = [];
     var methodNum = 0;
     for (var type of format) {
