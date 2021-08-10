@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "build": "webpack && npm test",
-    "test": "node tests.js"
+    "test": "npm run build"
   },
   "keywords": [
     "string",
