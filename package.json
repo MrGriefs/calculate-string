@@ -8,7 +8,7 @@
     "index.js"
   ],
   "scripts": {
-    "build": "webpack",
+    "build": "npm test && webpack",
     "test": "node tests.js"
   },
   "keywords": [
