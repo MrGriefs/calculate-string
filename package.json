@@ -8,7 +8,7 @@
     "index.js"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack"
   },
   "keywords": [
     "string",
@@ -23,5 +23,11 @@
   "bugs": {
     "url": "https://github.com/MrGriefs/calculate-string/issues"
   },
-  "homepage": "https://github.com/MrGriefs/calculate-string#readme"
+  "homepage": "https://github.com/MrGriefs/calculate-string#readme",
+  "dependencies": {
+    "jsbi": "^3.1.6"
+  },
+  "devDependencies": {
+    "webpack-cli": "^4.7.2"
+  }
 }
