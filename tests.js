@@ -35,6 +35,14 @@ function testOn(s, a) {
     test(s, `Negative brackets`, a('-(5)'), '-5');
     test(s, `Negative indices`, a('2^-4'), '0.0625');
     test(s, `Negative indices 2`, a('-2^4'), '-16');
+
+    test(s, `Scientific notation`, a('1e+6'), '1000000');
+    test(s, `Scientific notation addition`, a('1e+6 + 1e+6'), '2000000');
+    test(s, `Scientific notation subtraction`, a('1e+6 - 1.001e+4'), '989990');
+    test(s, `Scientific notation multiplication`, a('1e+2 * 1e+3'), '100000');
+    test(s, `Scientific notation division`, a('1e+4 / 1e+2'), '100');
+    test(s, `Scientific notation brackets`, a('(1e+4 + 1e+2) / 1e+2'), '101');
+    test(s, `Scientific notation indices`, a('1.2e+2 ^ 1e+2'), '8.28179745220145502584084235957368498016122811853894435464201864103254919330121223037770283296858019385573376e+207'); // this one is pretty fucking precise
 }
 
 testOn('Source', require('./index'));
