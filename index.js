@@ -3,10 +3,9 @@
  * https://github.com/MrGriefs/calculate-string
  */
 
-var jsbi = require('jsbi');
+var jsbi = require('jsbi')
 
-var big = jsbi.BigInt
-  , exp = jsbi.exponentiate
+var exp = jsbi.exponentiate
   , div = jsbi.divide
   , mul = jsbi.multiply
   , add = jsbi.add
@@ -33,6 +32,11 @@ var ops = {
 var orders = {
     BIDMAS: ["bra", "ind", "div", "mul", "add", "sub"]
   , PEMDAS: ["bra", "ind", "mul", "div", "add", "sub"]
+}
+
+function big(n) {
+    try { return jsbi.BigInt(n) }
+    catch(e) { return NaN }
 }
 
 function operate(type, a, b, format) {
