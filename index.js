@@ -3,7 +3,16 @@
  * https://github.com/MrGriefs/calculate-string
  */
 
-const reg = {
+var jsbi = require('jsbi');
+
+var big = jsbi.BigInt
+  , exp = jsbi.exponentiate
+  , div = jsbi.divide
+  , mul = jsbi.multiply
+  , add = jsbi.add
+  , sub = jsbi.subtract
+
+var reg = {
     bra: /\((.+)\)/
   , ind: /([\d.]+)\^([\d.]+)/
   , div: /([\d.]+)[/÷]([\d.]+)/
@@ -12,30 +21,30 @@ const reg = {
   , sub: /([\d.]+)-([\d.]+)/
 }
 
-const ops = {
-    bra: (a, _, format) => parseString(a, format)
-  , ind: (a, b) => Math.pow(Number(a), Number(b))
-  , div: (a, b) => Number(a) / Number(b)
-  , mul: (a, b) => Number(a) * Number(b)
-  , add: (a, b) => Number(a) + Number(b)
-  , sub: (a, b) => Number(a) - Number(b)
+var ops = {
+    bra: (a, _, format) => parse(a, format)
+  , ind: (a, b) => exp(big(a), big(b))
+  , div: (a, b) => div(big(a), big(b))
+  , mul: (a, b) => mul(big(a), big(b))
+  , add: (a, b) => add(big(a), big(b))
+  , sub: (a, b) => sub(big(a), big(b))
 }
 
-const orders = {
+var orders = {
     BIDMAS: ["bra", "ind", "div", "mul", "add", "sub"]
   , PEMDAS: ["bra", "ind", "mul", "div", "add", "sub"]
 }
 
 function operate(type, a, b, format) {
-    const op = ops[type];
+    var op = ops[type];
     return op(a, b, format);
 }
 
-function parseString(string, format = orders.BIDMAS) {
+function parse(string, format) {
     if (typeof string === "number") string = String(string);
     string = string.replace(/[ ,]+/g, "");
-    for (const type of format) {
-        const pattern = reg[type];
+    for (var type of format) {
+        var pattern = reg[type];
         if (!pattern) continue;
         var match;
         while (match = string.match(pattern)) {
@@ -59,17 +68,13 @@ function parseString(string, format = orders.BIDMAS) {
  *  - `add`
  *  - `sub`
  * 
- * @returns {number}
+ * @returns {string}
  */
-function calculateString (string, order = orders.BIDMAS) {
+function calculate (string, order = orders.BIDMAS) {
     if (typeof order === "string") order = orders[order.toUpperCase()];
     if (!Array.isArray(order)) throw new TypeError("Format must be \"BIDMAS\", \"PEMDAS\" or an Array, got \"" + typeof order + "\".");
     if (typeof string !== "string") throw new TypeError("`string` must be type of string, got \"" + typeof string + "\".")
-    return Number(parseString(string, order));
+    return big(parse(string, order)).toString();
 }
 
-if (typeof exports === "object" && typeof module !== "undefined") {
-    module.exports = calculateString;
-} else {
-    ("undefined" != typeof globalThis ? globalThis : self).calculateString = calculateString
-}
+module.exports = calculate;
