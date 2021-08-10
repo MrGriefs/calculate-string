@@ -3,26 +3,26 @@
  * https://github.com/MrGriefs/calculate-string
  */
 
-var jsbi = require('jsbi')
+var bjs = require('big.js');
 
-var exp = jsbi.exponentiate
-  , div = jsbi.divide
-  , mul = jsbi.multiply
-  , add = jsbi.add
-  , sub = jsbi.subtract
+var pow = function (a, b) { if (b > 33219) return Infinity; if (b < -33219) return -Infinity; return a.lt(0) ? a.pow(b).times(-1) : a.pow(b) }
+  , div = function (a, b) { return a.div(b) }
+  , mul = function (a, b) { return a.times(b) }
+  , add = function (a, b) { return a.plus(b) }
+  , sub = function (a, b) { return a.minus(b) }
 
 var reg = {
     bra: /\((.+)\)/
-  , ind: /([\d.]+)(\^|\*{2})([\d.]+)/
-  , div: /([\d.]+)[/÷]([\d.]+)/
-  , mul: /([\d.]+)[*x×]([\d.]+)/i
-  , add: /([\d.]+)\+([\d.]+)/
-  , sub: /([\d.]+)-([\d.]+)/
+  , ind: /(\$?[\d.]+)(?:\^|\*{2})(\$?-?[\d.]+)/
+  , div: /(\$?[\d.]+)[/÷](\$?-?[\d.]+)/
+  , mul: /(\$?[\d.]+)[*x×](\$?-?[\d.]+)/i
+  , add: /(\$?[\d.]+)(?!e)\+(\$?-?[\d.]+)/i
+  , sub: /(\$?[\d.]+)-(\$?-?[\d.]+)/
 }
 
 var ops = {
-    bra: (a, _, format) => parse(a, format)
-  , ind: (a, b) => exp(big(a), big(b))
+    bra: (a, _, format) => a[0] === '-' ? parse(a.slice(1), format).times(-1) : parse(a, format)
+  , ind: (a, b) => pow(big(a), Number(b))
   , div: (a, b) => div(big(a), big(b))
   , mul: (a, b) => mul(big(a), big(b))
   , add: (a, b) => add(big(a), big(b))
@@ -35,27 +35,33 @@ var orders = {
 }
 
 function big(n) {
-    try { return jsbi.BigInt(n) }
+    try { return new bjs(n) }
     catch(e) { return NaN }
 }
 
 function operate(type, a, b, format) {
-    var op = ops[type];
-    return op(a, b, format);
+    return ops[type](a, b, format);
 }
 
 function parse(string, format) {
     if (typeof string === "number") string = String(string);
-    string = string.replace(/[ ,]+/g, "");
+    string = string.replace(/[ ,$]+/g, "");
+    var methodResults = [];
+    var methodNum = 0;
     for (var type of format) {
         var pattern = reg[type];
         if (!pattern) continue;
         var match;
         while (match = string.match(pattern)) {
-            string = string.slice(0, match.index) + operate(type, match[1], match[2], format) + string.slice(match.index + match[0].length);
+            if (match[1][0] === '$') match[1] = methodResults[match[1].slice(1)];
+            else if (match.input[0] === '-') match[1] = '-' + match[1];
+            if (match[2] && match[2][0] === '$') match[2] = methodResults[match[2].slice(1)];
+            methodResults[methodNum] = operate(type, match[1], match[2], format);
+            string = string.slice(0, match.index) + '$' + methodNum + string.slice(match.index + match[0].length);
+            methodNum++
         }
     }
-    return string;
+    return methodResults[methodResults.length - 1] || big(string);
 }
 
 /**
@@ -73,7 +79,7 @@ function calculate (string, order = orders.BIDMAS) {
     if (typeof order === "string") order = orders[order.toUpperCase()];
     if (!Array.isArray(order)) throw new TypeError("Format must be \"BIDMAS\", \"PEMDAS\" or an Array, got \"" + typeof order + "\".");
     if (typeof string !== "string") throw new TypeError("`string` must be type of string, got \"" + typeof string + "\".")
-    return big(parse(string, order)).toString();
+    return parse(string, order).toString();
 }
 
 module.exports = calculate;
