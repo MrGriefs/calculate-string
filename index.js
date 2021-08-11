@@ -45,8 +45,10 @@ function operate(type, a, b, format) {
 
 function parse(string, format) {
     if (typeof string === "number") string = String(string);
+    var isInfinite = false;
     string = string.replace(/[ ,$]+/g, "")
-                   .replace(/\d\.?\d*e(\+?|-)\d+/gi, str => big(str).toString());
+                   .replace(/\d\.?\d*e(\+?|-)\d+/gi, str => big(str).toString())
+                   .replace(/Infinity/g, function () { isInfinite = true; return '1' });
     var methodResults = [];
     var methodNum = 0;
     for (var type of format) {
@@ -62,7 +64,9 @@ function parse(string, format) {
             methodNum++
         }
     }
-    return methodResults[methodResults.length - 1] || big(string);
+    var result = methodResults[methodResults.length - 1] || big(string);
+    if (isInfinite) return (result.lt(0) ? '-' : '') + 'Infinity';
+    else return result;
 }
 
 /**
