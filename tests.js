@@ -43,6 +43,16 @@ function testOn(s, a) {
     test(s, `Scientific notation division`, a('1e+4 / 1e+2'), '100');
     test(s, `Scientific notation brackets`, a('(1e+4 + 1e+2) / 1e+2'), '101');
     test(s, `Scientific notation indices`, a('1.2e+2 ^ 1e+2'), '8.28179745220145502584084235957368498016122811853894435464201864103254919330121223037770283296858019385573376e+207'); // this one is pretty fucking precise
+
+    test(s, `Infinity`, a('-1e+6 ^ 1e+6'), 'Infinity');
+    test(s, `Negative infinity`, a('-1e+6 ^ -1e+6'), '-Infinity');
+    test(s, `Infinity in`, a('Infinity'), 'Infinity');
+    test(s, `Negative infinity in`, a('-Infinity'), '-Infinity');
+
+    test(s, `Infinity to negative infinity`, a('Infinity * -1'), '-Infinity');
+    test(s, `Negative infinity to infinity`, a('-Infinity * -1'), 'Infinity');
+
+    test(s, `Not a number`, a('foobarbaz'), 'NaN');
 }
 
 testOn('Source', require('./index'));
