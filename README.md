@@ -44,8 +44,12 @@ const calculateString = require('calculate-string')
 
 calculateString('1,000 + 1,000') // String: '2000'
 calculateString('(100 + 10) / 10') // String: '11'
-BigInt(calculateString('2 ^ 64')) // BigInt: 18,446,744,073,709,551,616
-Number.isNaN(calculateString("this won't get parsed")) // Boolean: true
+BigInt(calculateString('2 ** 64')) // BigInt: 18,446,744,073,709,551,616
+BigInt(calculateString('NaN')) // SyntaxError: Cannot convert NaN to a BigInt
+Number(calculateString('1e+6 ^ -1e+6')) // Number: -Infinity
+calculateString("this won't get parsed")) == 'NaN' // Boolean: true
+calculateString('1,000,000 ^ 10') // String: '1e+60'
+Number(calculateString('1,000,000 ^ 10')) // Number: 1e+60
 ```
 
 ```html
