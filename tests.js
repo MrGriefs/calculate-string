@@ -34,7 +34,8 @@ function testOn(s, a) {
     test(s, `Negative division 2`, a('-5/2'), '-2.5');
     test(s, `Negative brackets`, a('-(5)'), '-5');
     test(s, `Negative indices`, a('2^-4'), '0.0625');
-    test(s, `Negative indices 2`, a('-2^4'), '-16');
+    test(s, `Negative indices 2`, a('-2^4'), '16');
+    test(s, `Negative indices 3`, a('-(2^4)'), '-16');
 
     test(s, `Scientific notation`, a('1e+6'), '1000000');
     test(s, `Scientific notation addition`, a('1e+6 + 1e+6'), '2000000');
