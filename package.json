@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "build": "webpack",
-    "test": "./tests.sh"
+    "test": "sh ./tests.sh"
   },
   "keywords": [
     "string",
