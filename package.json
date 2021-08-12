@@ -8,8 +8,8 @@
     "index.js"
   ],
   "scripts": {
-    "build": "webpack && node tests.js",
-    "test": "npm run build"
+    "build": "webpack",
+    "test": "./tests.sh"
   },
   "keywords": [
     "string",
