@@ -5,11 +5,11 @@
 
 var bjs = require('big.js');
 
-var pow = function (a, b) { if (b > 33219) return Infinity; if (b < -33219) return -Infinity; return a.pow(b) }
-  , div = function (a, b) { return a.div(b) }
-  , mul = function (a, b) { return a.times(b) }
-  , add = function (a, b) { return a.plus(b) }
-  , sub = function (a, b) { return a.minus(b) }
+function pow (a, b) { if (b > 33219) return Infinity; if (b < -33219) return -Infinity; return a.pow(b) }
+function div (a, b) { return a.div(b) }
+function mul (a, b) { return a.times(b) }
+function add (a, b) { return a.plus(b) }
+function sub (a, b) { return a.minus(b) }
 
 var reg = {
     bra: /\((.+)\)/
