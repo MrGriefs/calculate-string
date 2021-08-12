@@ -5,7 +5,7 @@
 
 var bjs = require('big.js');
 
-var pow = function (a, b) { if (b > 33219) return Infinity; if (b < -33219) return -Infinity; return a.lt(0) ? a.pow(b).times(-1) : a.pow(b) }
+var pow = function (a, b) { if (b > 33219) return Infinity; if (b < -33219) return -Infinity; return a.pow(b) }
   , div = function (a, b) { return a.div(b) }
   , mul = function (a, b) { return a.times(b) }
   , add = function (a, b) { return a.plus(b) }
