@@ -21,12 +21,12 @@ var reg = {
 }
 
 var ops = {
-    bra: (a, _, format) => a[0] === '-' ? parse(a.slice(1), format).times(-1) : parse(a, format)
-  , ind: (a, b) => pow(big(a), Number(b))
-  , div: (a, b) => div(big(a), big(b))
-  , mul: (a, b) => mul(big(a), big(b))
-  , add: (a, b) => add(big(a), big(b))
-  , sub: (a, b) => sub(big(a), big(b))
+    bra: function (a, _, format) { return a[0] === '-' ? parse(a.slice(1), format).times(-1) : parse(a, format) }
+  , ind: function (a, b) { return pow(big(a), Number(b)) }
+  , div: function (a, b) { return div(big(a), big(b)) }
+  , mul: function (a, b) { return mul(big(a), big(b)) }
+  , add: function (a, b) { return add(big(a), big(b)) }
+  , sub: function (a, b) { return sub(big(a), big(b)) }
 }
 
 var orders = {
@@ -47,7 +47,7 @@ function parse(string, format) {
     if (typeof string === "number") string = String(string);
     var isInfinite = false;
     string = string.replace(/[ ,$]+/g, "")
-                   .replace(/\d\.?\d*e(\+?|-)\d+/gi, str => big(str).toString())
+                   .replace(/\d\.?\d*e(\+?|-)\d+/gi, function (str) { return big(str).toString() })
                    .replace(/Infinity/g, function () { isInfinite = true; return '1' });
     var methodResults = [];
     var methodNum = 0;
@@ -80,7 +80,8 @@ function parse(string, format) {
  * ```
  * @returns {string}
  */
-function calculate (string, order = orders.BIDMAS) {
+function calculate (string, order) {
+    if (!order) order = orders.BIDMAS;
     if (typeof order === "string") order = orders[order.toUpperCase()];
     if (!Array.isArray(order)) throw new TypeError("Format must be \"BIDMAS\", \"PEMDAS\" or an Array, got \"" + typeof order + "\".");
     if (typeof string !== "string") throw new TypeError("`string` must be type of string, got \"" + typeof string + "\".")
